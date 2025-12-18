@@ -1,0 +1,11 @@
+// Size: 35 B
+### Negative test: An authorized user cannot deposit more then 5,000 into their account.
+POST http://localhost:4111/api/v1/accounts/deposit HTTP/1.1
+Authorization: Basic dXNlcjgzMjE6cGFzczExQSE=
+Content-Type: application/json
+Content-Length: 35
+
+{
+  "id": 1,
+  "balance": 5000.01
+}

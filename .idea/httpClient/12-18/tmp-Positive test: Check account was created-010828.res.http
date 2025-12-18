@@ -1,0 +1,24 @@
+// Status: 405, time: 74ms, size: 122 B
+### Positive test: Check account was created
+POST http://localhost:4111/api/v1/customer/accounts HTTP/1.1
+allow: GET
+cache-control: no-cache, no-store, max-age=0, must-revalidate
+content-type: application/json
+date: Thu, 18 Dec 2025 10:08:28 GMT
+expires: 0
+pragma: no-cache
+transfer-encoding: chunked
+vary: Origin
+vary: Access-Control-Request-Method
+vary: Access-Control-Request-Headers
+x-content-type-options: nosniff
+x-frame-options: DENY
+x-xss-protection: 0
+
+{
+  "timestamp": "2025-12-18T10:08:28.499+00:00",
+  "status": 405,
+  "error": "Method Not Allowed",
+  "path": "/api/v1/customer/accounts"
+}
+>> /home/aleksandr/IdeaProjects/Autotests/.idea/httpClient/12-18/Positive test: Check account was created/2025-12-18T130828.json

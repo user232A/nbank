@@ -1,0 +1,18 @@
+// Status: 403, time: 135ms, size: 30 B
+### Negative test: User cannot make a deposit into a non-existent account
+POST http://localhost:4111/api/v1/accounts/deposit HTTP/1.1
+cache-control: no-cache, no-store, max-age=0, must-revalidate
+content-length: 30
+content-type: text/plain;charset=UTF-8
+date: Thu, 18 Dec 2025 13:45:05 GMT
+expires: 0
+pragma: no-cache
+vary: Origin
+vary: Access-Control-Request-Method
+vary: Access-Control-Request-Headers
+x-content-type-options: nosniff
+x-frame-options: DENY
+x-xss-protection: 0
+
+Unauthorized access to account
+>> /home/aleksandr/IdeaProjects/Autotests/.idea/httpClient/12-18/Negative test: User cannot make a deposit into a non-existent account/2025-12-18T164505.txt

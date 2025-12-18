@@ -1,0 +1,11 @@
+// Size: 31 B
+### Negative test: User cannot make a deposit into another user's account.
+POST http://localhost:4111/api/v1/accounts/deposit HTTP/1.1
+Authorization: Basic dXNlcjgzMjE6cGFzczExQSE=
+Content-Type: application/json
+Content-Length: 31
+
+{
+  "id": 2,
+  "balance": 400
+}

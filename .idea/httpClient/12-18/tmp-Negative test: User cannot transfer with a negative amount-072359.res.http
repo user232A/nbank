@@ -1,0 +1,19 @@
+// Status: 400, time: 81ms, size: 37 B
+### Negative test: User cannot transfer with a negative amount
+POST http://localhost:4111/api/v1/accounts/transfer HTTP/1.1
+cache-control: no-cache, no-store, max-age=0, must-revalidate
+connection: close
+content-length: 37
+content-type: text/plain;charset=UTF-8
+date: Thu, 18 Dec 2025 16:23:59 GMT
+expires: 0
+pragma: no-cache
+vary: Origin
+vary: Access-Control-Request-Method
+vary: Access-Control-Request-Headers
+x-content-type-options: nosniff
+x-frame-options: DENY
+x-xss-protection: 0
+
+Transfer amount must be at least 0.01
+>> /home/aleksandr/IdeaProjects/Autotests/.idea/httpClient/12-18/Negative test: User cannot transfer with a negative amount/2025-12-18T192359.txt

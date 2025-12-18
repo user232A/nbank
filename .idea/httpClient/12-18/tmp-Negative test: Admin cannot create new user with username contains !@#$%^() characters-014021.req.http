@@ -1,0 +1,12 @@
+// Size: 73 B
+### Negative test: Admin cannot create new user with username contains !@#$%^() characters
+POST http://localhost:4111/api/v1/admin/users HTTP/1.1
+Authorization: Basic YWRtaW46YWRtaW4=
+Content-Type: application/json
+Content-Length: 73
+
+{
+  "username": "abcdefgh!",
+  "password": "pass00A$",
+  "role": "USER"
+}

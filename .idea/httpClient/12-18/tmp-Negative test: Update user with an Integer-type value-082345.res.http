@@ -1,0 +1,19 @@
+// Status: 400, time: 83ms, size: 45 B
+### Negative test: Update user with an Integer-type value
+PUT http://localhost:4111/api/v1/customer/profile HTTP/1.1
+cache-control: no-cache, no-store, max-age=0, must-revalidate
+connection: close
+content-length: 45
+content-type: text/plain;charset=UTF-8
+date: Thu, 18 Dec 2025 17:23:45 GMT
+expires: 0
+pragma: no-cache
+vary: Origin
+vary: Access-Control-Request-Method
+vary: Access-Control-Request-Headers
+x-content-type-options: nosniff
+x-frame-options: DENY
+x-xss-protection: 0
+
+Name must contain two words with letters only
+>> /home/aleksandr/IdeaProjects/Autotests/.idea/httpClient/12-18/Negative test: Update user with an Integer-type value/2025-12-18T202345.txt

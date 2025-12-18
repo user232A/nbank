@@ -1,0 +1,13 @@
+// Size: 85 B
+### Negative test: Create exists user by admin
+POST http://localhost:4111/api/v1/admin/users HTTP/1.1
+Accept: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+Content-Type: application/json
+Content-Length: 85
+
+{
+  "username": "kate1998",
+  "password": "verysTRongPassword33$",
+  "role": "USER"
+}

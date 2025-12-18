@@ -1,0 +1,7 @@
+// Size: 0 B
+### Positive test: Authorized user can create an account
+POST http://localhost:4111/api/v1/accounts HTTP/1.1
+Authorization: Basic dXNlcjc3Nzc6cGFzczc3JEI=
+Content-Type: application/json
+Content-Length: 0
+

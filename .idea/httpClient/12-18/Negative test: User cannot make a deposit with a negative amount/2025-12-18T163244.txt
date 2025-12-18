@@ -1,0 +1,1 @@
+Deposit amount must be at least 0.01

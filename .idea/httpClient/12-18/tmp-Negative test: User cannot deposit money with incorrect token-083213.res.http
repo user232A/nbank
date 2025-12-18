@@ -1,0 +1,19 @@
+// Status: 401, time: 7ms, size: 0 B
+### Negative test: User cannot deposit money with incorrect token
+POST http://localhost:4111/api/v1/accounts/deposit HTTP/1.1
+cache-control: no-cache, no-store, max-age=0, must-revalidate
+content-length: 0
+date: Thu, 18 Dec 2025 17:32:13 GMT
+expires: 0
+pragma: no-cache
+set-cookie: JSESSIONID=28DCB8D781FCE5E70B90EE42AF28748F; Path=/; HttpOnly
+vary: Origin
+vary: Access-Control-Request-Method
+vary: Access-Control-Request-Headers
+www-authenticate: Basic realm="Realm"
+x-content-type-options: nosniff
+x-frame-options: DENY
+x-xss-protection: 0
+
+
+>> /home/aleksandr/IdeaProjects/Autotests/.idea/httpClient/12-18/Negative test: User cannot deposit money with incorrect token/2025-12-18T203213.txt

@@ -1,0 +1,38 @@
+// Status: 200, time: 128ms, size: 276 B
+### Positive test: An authorized user can deposit 5,000 into their account.
+POST http://localhost:4111/api/v1/accounts/deposit HTTP/1.1
+cache-control: no-cache, no-store, max-age=0, must-revalidate
+content-type: application/json
+date: Thu, 18 Dec 2025 13:09:13 GMT
+expires: 0
+pragma: no-cache
+transfer-encoding: chunked
+vary: Origin
+vary: Access-Control-Request-Method
+vary: Access-Control-Request-Headers
+x-content-type-options: nosniff
+x-frame-options: DENY
+x-xss-protection: 0
+
+{
+  "id": 1,
+  "accountNumber": "ACC1",
+  "balance": 5100.0,
+  "transactions": [
+    {
+      "id": 2,
+      "amount": 5000.0,
+      "type": "DEPOSIT",
+      "timestamp": "Thu Dec 18 13:09:13 UTC 2025",
+      "relatedAccountId": 1
+    },
+    {
+      "id": 1,
+      "amount": 100.0,
+      "type": "DEPOSIT",
+      "timestamp": "Thu Dec 18 12:49:32 UTC 2025",
+      "relatedAccountId": 1
+    }
+  ]
+}
+>> /home/aleksandr/IdeaProjects/Autotests/.idea/httpClient/12-18/Positive test: An authorized user can deposit 5,000 into their account./2025-12-18T160913.json

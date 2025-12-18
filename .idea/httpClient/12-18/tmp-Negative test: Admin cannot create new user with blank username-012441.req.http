@@ -1,0 +1,12 @@
+// Size: 63 B
+### Negative test: Admin cannot create new user with blank username
+POST http://localhost:4111/api/v1/admin/users HTTP/1.1
+Authorization: Basic YWRtaW46YWRtaW4=
+Content-Type: application/json
+Content-Length: 63
+
+{
+  "username": " ",
+  "password": "pass00",
+  "role": "USER"
+}

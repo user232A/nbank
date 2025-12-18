@@ -1,0 +1,23 @@
+// Status: 200, time: 139ms, size: 92 B
+### User can transfer 10,000 to another user's account
+POST http://localhost:4111/api/v1/accounts/transfer HTTP/1.1
+cache-control: no-cache, no-store, max-age=0, must-revalidate
+content-type: application/json
+date: Thu, 18 Dec 2025 15:16:31 GMT
+expires: 0
+pragma: no-cache
+transfer-encoding: chunked
+vary: Origin
+vary: Access-Control-Request-Method
+vary: Access-Control-Request-Headers
+x-content-type-options: nosniff
+x-frame-options: DENY
+x-xss-protection: 0
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 2,
+  "amount": 10000.0,
+  "message": "Transfer successful"
+}
+>> /home/aleksandr/IdeaProjects/Autotests/.idea/httpClient/12-18/User can transfer 10,000 to another user's account/2025-12-18T181631.json

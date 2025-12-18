@@ -1,0 +1,10 @@
+// Size: 19 B
+### Negative test: Update user with a null value
+PUT http://localhost:4111/api/v1/customer/profile HTTP/1.1
+Authorization: Basic dXNlcjgzMjE6cGFzczExQSE=
+Content-Type: application/json
+Content-Length: 19
+
+{
+  "name": null
+}

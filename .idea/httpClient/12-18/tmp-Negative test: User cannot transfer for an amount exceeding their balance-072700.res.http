@@ -1,0 +1,19 @@
+// Status: 400, time: 75ms, size: 35 B
+### Negative test: User cannot transfer for an amount exceeding their balance
+POST http://localhost:4111/api/v1/accounts/transfer HTTP/1.1
+cache-control: no-cache, no-store, max-age=0, must-revalidate
+connection: close
+content-length: 35
+content-type: text/plain;charset=UTF-8
+date: Thu, 18 Dec 2025 16:27:00 GMT
+expires: 0
+pragma: no-cache
+vary: Origin
+vary: Access-Control-Request-Method
+vary: Access-Control-Request-Headers
+x-content-type-options: nosniff
+x-frame-options: DENY
+x-xss-protection: 0
+
+Transfer amount cannot exceed 10000
+>> /home/aleksandr/IdeaProjects/Autotests/.idea/httpClient/12-18/Negative test: User cannot transfer for an amount exceeding their balance/2025-12-18T192700.txt

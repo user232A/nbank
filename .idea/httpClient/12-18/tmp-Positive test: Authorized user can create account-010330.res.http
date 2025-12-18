@@ -1,0 +1,23 @@
+// Status: 201, time: 124ms, size: 63 B
+### Positive test: Authorized user can create account
+POST http://localhost:4111/api/v1/accounts HTTP/1.1
+cache-control: no-cache, no-store, max-age=0, must-revalidate
+content-type: application/json
+date: Thu, 18 Dec 2025 10:03:30 GMT
+expires: 0
+pragma: no-cache
+transfer-encoding: chunked
+vary: Origin
+vary: Access-Control-Request-Method
+vary: Access-Control-Request-Headers
+x-content-type-options: nosniff
+x-frame-options: DENY
+x-xss-protection: 0
+
+{
+  "id": 1,
+  "accountNumber": "ACC1",
+  "balance": 0.0,
+  "transactions": []
+}
+>> /home/aleksandr/IdeaProjects/Autotests/.idea/httpClient/12-18/Positive test: Authorized user can create account/2025-12-18T130330.json

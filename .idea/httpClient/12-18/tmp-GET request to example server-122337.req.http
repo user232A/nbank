@@ -1,0 +1,8 @@
+// Size: 0 B
+### GET request to example server
+GET http://localhost:4111/api/v1/admin/users HTTP/1.1
+Accept: */*
+Authorization: Basic YWRtaW46YWRtaW4=
+Content-Type: application/json
+Content-Length: 0
+

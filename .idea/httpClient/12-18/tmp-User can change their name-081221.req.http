@@ -1,0 +1,11 @@
+// Size: 28 B
+### User can change their name
+PUT http://localhost:4111/api/v1/customer/profile HTTP/1.1
+Authorization: Basic dXNlcjgzMjE6cGFzczExQSE=
+Content-Type: application/json
+Content-Length: 28
+
+{
+  "name": "John Smith"
+}
+

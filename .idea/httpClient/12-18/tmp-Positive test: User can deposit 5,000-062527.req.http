@@ -1,0 +1,11 @@
+// Size: 34 B
+### Positive test: User can deposit 5,000
+POST http://localhost:4111/api/v1/accounts/deposit HTTP/1.1
+Authorization: Basic dXNlcjgzMjE6cGFzczExQSE=
+Content-Type: application/json
+Content-Length: 34
+
+{
+  "id": 1,
+  "balance": 5000.0
+}

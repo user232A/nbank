@@ -1,0 +1,6 @@
+{
+  "timestamp": "2025-12-18T17:25:56.111+00:00",
+  "status": 500,
+  "error": "Internal Server Error",
+  "path": "/api/v1/accounts/deposit"
+}

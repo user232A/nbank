@@ -1,0 +1,18 @@
+// Status: 200, time: 122ms, size: 2 B
+### GET request to example server
+GET http://localhost:4111/api/v1/admin/users HTTP/1.1
+cache-control: no-cache, no-store, max-age=0, must-revalidate
+content-type: application/json
+date: Thu, 18 Dec 2025 08:39:17 GMT
+expires: 0
+pragma: no-cache
+transfer-encoding: chunked
+vary: Origin
+vary: Access-Control-Request-Method
+vary: Access-Control-Request-Headers
+x-content-type-options: nosniff
+x-frame-options: DENY
+x-xss-protection: 0
+
+[]
+>> /home/aleksandr/IdeaProjects/Autotests/.idea/httpClient/12-18/GET request to example server/2025-12-18T113917.json

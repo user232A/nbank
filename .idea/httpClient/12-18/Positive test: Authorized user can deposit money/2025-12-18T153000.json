@@ -1,0 +1,6 @@
+{
+  "timestamp": "2025-12-18T12:30:00.811+00:00",
+  "status": 400,
+  "error": "Bad Request",
+  "path": "/api/v1/accounts/deposit"
+}
