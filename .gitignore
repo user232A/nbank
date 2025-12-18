@@ -52,6 +52,3 @@ build/
 test-output/
 *.swp
 *.swo
-
-# Environment files
-.env
