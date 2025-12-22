@@ -95,14 +95,14 @@ Content-Type: application/json
   "role": "USER"
 }
 
-### Negative test: Admin cannot create new user with password with role not from list "ADMIN", "USER"
+### Negative test: Admin cannot create new user with role not from list "ADMIN", "USER"
 POST http://localhost:4111/api/v1/admin/users
 Authorization: Basic YWRtaW46YWRtaW4=
 Content-Type: application/json
 
 {
   "username": "{{$random.uuid}}",
-  "password": "12aE!",
+  "password": "12RqPAaE!",
   "role": "EXAMPLE"
 }
 
