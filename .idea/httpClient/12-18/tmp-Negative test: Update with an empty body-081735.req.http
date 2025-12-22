@@ -1,8 +1,0 @@
-// Size: 2 B
-### Negative test: Update with an empty body
-PUT http://localhost:4111/api/v1/customer/profile HTTP/1.1
-Authorization: Basic dXNlcjgzMjE6cGFzczExQSE=
-Content-Type: application/json
-Content-Length: 2
-
-{}
