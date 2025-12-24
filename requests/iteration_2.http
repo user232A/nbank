@@ -1,0 +1,297 @@
+### Positive test: Authorized user can create an account
+POST http://localhost:4111/api/v1/accounts
+Authorization: Basic dXNlcjgzMjE6cGFzczExQSE=
+Content-Type: application/json
+
+### Positive test: User can deposit 5,000
+POST http://localhost:4111/api/v1/accounts/deposit
+Authorization: Basic dXNlcjgzMjE6cGFzczExQSE=
+Content-Type: application/json
+
+{
+  "id": 1,
+  "balance": 5000.0
+}
+
+### Positive test: User can deposit 4,999.99
+POST http://localhost:4111/api/v1/accounts/deposit
+Authorization: Basic dXNlcjgzMjE6cGFzczExQSE=
+Content-Type: application/json
+
+{
+  "id": 1,
+  "balance": 4999.99
+}
+
+### Positive test: User can deposit 0,01
+POST http://localhost:4111/api/v1/accounts/deposit
+Authorization: Basic dXNlcjgzMjE6cGFzczExQSE=
+Content-Type: application/json
+
+{
+  "id": 1,
+  "balance": 0.01
+}
+
+### Negative test: User cannot deposit more then 5,000
+POST http://localhost:4111/api/v1/accounts/deposit
+Authorization: Basic dXNlcjgzMjE6cGFzczExQSE=
+Content-Type: application/json
+
+{
+  "id": 1,
+  "balance": 5000.01
+}
+
+### Negative test: An unauthorized user cannot deposit money
+POST http://localhost:4111/api/v1/accounts/deposit
+Content-Type: application/json
+Accept: application/json
+
+{
+  "id": 1,
+  "balance": 100.0
+}
+
+### Negative test: User cannot deposit money with incorrect token
+POST http://localhost:4111/api/v1/accounts/deposit
+Authorization: Basic incorrectToken=
+Content-Type: application/json
+
+{
+  "id": 1,
+  "balance": 100.0
+}
+
+### Negative test: User cannot deposit with a null value
+POST http://localhost:4111/api/v1/accounts/deposit
+Authorization: Basic dXNlcjgzMjE6cGFzczExQSE=
+Content-Type: application/json
+
+{
+  "id": null,
+  "balance": 100.0
+}
+
+### Negative test: User cannot make a deposit with a negative amount
+POST http://localhost:4111/api/v1/accounts/deposit
+Authorization: Basic dXNlcjgzMjE6cGFzczExQSE=
+Content-Type: application/json
+
+{
+  "id": 1,
+  "balance": -1
+}
+
+### Negative test: User cannot make a deposit into a non-existent account
+POST http://localhost:4111/api/v1/accounts/deposit
+Authorization: Basic dXNlcjgzMjE6cGFzczExQSE=
+Content-Type: application/json
+
+{
+  "id": 25,
+  "balance": 85
+}
+
+### Negative test: User cannot make a deposit into another user's account.
+POST http://localhost:4111/api/v1/accounts/deposit
+Authorization: Basic dXNlcjgzMjE6cGFzczExQSE=
+Content-Type: application/json
+
+{
+  "id": 2,
+  "balance": 400
+}
+
+
+### Positive test: User can transfer 0.01 to their own account.
+POST http://localhost:4111/api/v1/accounts/transfer
+Authorization: Basic dXNlcjgzMjE6cGFzczExQSE=
+Content-Type: application/json
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 3,
+  "amount": 0.01
+}
+
+### Positive test: User can transfer 10,000 to another user's account
+POST http://localhost:4111/api/v1/accounts/transfer
+Authorization: Basic dXNlcjgzMjE6cGFzczExQSE=
+Content-Type: application/json
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 2,
+  "amount": 10000
+}
+
+### Positive test: User can transfer 9,999.99 to another user's account
+POST http://localhost:4111/api/v1/accounts/transfer
+Authorization: Basic dXNlcjgzMjE6cGFzczExQSE=
+Content-Type: application/json
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 2,
+  "amount": 9999.99
+}
+
+### Negative test: User cannot transfer more 10,000
+POST http://localhost:4111/api/v1/accounts/transfer
+Authorization: Basic dXNlcjgzMjE6cGFzczExQSE=
+Content-Type: application/json
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 3,
+  "amount": 10000.01
+}
+
+### Negative test: An unauthorized user cannot initiate a transfer
+POST http://localhost:4111/api/v1/accounts/transfer
+Content-Type: application/json
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 2,
+  "amount": 10
+}
+
+### Negative test: User cannot initiate a transfer with incorrect token
+POST http://localhost:4111/api/v1/accounts/transfer
+Authorization: Basic incorrectToken=
+Content-Type: application/json
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 2,
+  "amount": 10
+}
+
+### Negative test: User cannot transfer with a null value
+POST http://localhost:4111/api/v1/accounts/transfer
+Authorization: Basic dXNlcjgzMjE6cGFzczExQSE=
+Content-Type: application/json
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": null,
+  "amount": 10
+}
+
+### Negative test: User cannot transfer more 10,000
+POST http://localhost:4111/api/v1/accounts/transfer
+Authorization: Basic dXNlcjgzMjE6cGFzczExQSE=
+Content-Type: application/json
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 3,
+  "amount": 10000.01
+}
+
+### Negative test: User cannot transfer with a negative amount
+POST http://localhost:4111/api/v1/accounts/transfer
+Authorization: Basic dXNlcjgzMjE6cGFzczExQSE=
+Content-Type: application/json
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 3,
+  "amount": -10
+}
+
+### Negative test: User cannot transfer for an amount exceeding their balance
+POST http://localhost:4111/api/v1/accounts/transfer
+Authorization: Basic dXNlcjgzMjE6cGFzczExQSE=
+Content-Type: application/json
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 3,
+  "amount": 1000000000
+}
+
+### Negative test: User cannot make a transfer to a non-existent account
+POST http://localhost:4111/api/v1/accounts/transfer
+Authorization: Basic dXNlcjgzMjE6cGFzczExQSE=
+Content-Type: application/json
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 50,
+  "amount": 10
+}
+
+### Negative test: User cannot transfer if the source and destination account IDs are the same
+POST http://localhost:4111/api/v1/accounts/transfer
+Authorization: Basic dXNlcjgzMjE6cGFzczExQSE=
+Content-Type: application/json
+
+{
+  "senderAccountId": 1,
+  "receiverAccountId": 1,
+  "amount": 10
+}
+
+
+### Positive test: User can change their name
+PUT http://localhost:4111/api/v1/customer/profile
+Authorization: Basic dXNlcjgzMjE6cGFzczExQSE=
+Content-Type: application/json
+
+{
+  "name": "John Smith"
+}
+
+### Negative test: An unauthorized user cannot update their name
+PUT http://localhost:4111/api/v1/customer/profile
+Content-Type: application/json
+
+{
+  "name": "Bob Miller"
+}
+
+### Negative test: User cannot update their name with incorrect token
+PUT http://localhost:4111/api/v1/customer/profile
+Authorization: Basic incorrectToken=
+Content-Type: application/json
+
+{
+  "name": "Bob Miller"
+}
+
+### Negative test: Update user with two spaces
+PUT http://localhost:4111/api/v1/customer/profile
+Authorization: Basic dXNlcjgzMjE6cGFzczExQSE=
+Content-Type: application/json
+
+{
+  "name": "Jean-Claude Van Damme"
+}
+
+### Negative test: Update user with an empty body
+PUT http://localhost:4111/api/v1/customer/profile
+Authorization: Basic dXNlcjgzMjE6cGFzczExQSE=
+Content-Type: application/json
+
+{}
+
+### Negative test: Update user with a null value
+PUT http://localhost:4111/api/v1/customer/profile
+Authorization: Basic dXNlcjgzMjE6cGFzczExQSE=
+Content-Type: application/json
+
+{
+  "name": null
+}
+
+### Negative test: Update user with an Integer-type value
+PUT http://localhost:4111/api/v1/customer/profile
+Authorization: Basic dXNlcjgzMjE6cGFzczExQSE=
+Content-Type: application/json
+
+{
+  "name": 5
+}

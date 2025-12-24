@@ -1,6 +1,0 @@
-{
-  "timestamp": "2025-12-18T10:02:52.951+00:00",
-  "status": 403,
-  "error": "Forbidden",
-  "path": "/api/v1/admin/accounts"
-}

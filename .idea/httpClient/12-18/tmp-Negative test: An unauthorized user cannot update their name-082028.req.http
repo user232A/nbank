@@ -1,9 +1,0 @@
-// Size: 26 B
-### Negative test: An unauthorized user cannot update their name
-PUT http://localhost:4111/api/v1/customer/profile HTTP/1.1
-Content-Type: application/json
-Content-Length: 26
-
-{
-  "name": "Bob Miller"
-}

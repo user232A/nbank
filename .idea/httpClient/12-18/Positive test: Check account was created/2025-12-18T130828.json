@@ -1,6 +1,0 @@
-{
-  "timestamp": "2025-12-18T10:08:28.499+00:00",
-  "status": 405,
-  "error": "Method Not Allowed",
-  "path": "/api/v1/customer/accounts"
-}
