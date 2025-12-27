@@ -17,8 +17,8 @@ import static io.restassured.RestAssured.given;
 
 public class TransferUserTest extends BaseIteration2Test {
 
-    public static final String USER1_TOKEN = "Basic dXNlcjQ6cGFzc0QyMyE=";
-    public static final String USER2_TOKEN = "Basic dXNlcjU6cGFzc0QyMzExIQ==";
+    public static final String USER1_TOKEN = "Basic dXNlcjE6cGFzc0YzNSEx";
+    public static final String USER2_TOKEN = "Basic dXNlcjI6cGFzc1lBNSU=";
 
     @BeforeAll
     public static void setUp() {
@@ -888,7 +888,6 @@ public class TransferUserTest extends BaseIteration2Test {
         double senderBalanceAfterTransfer = accountListAfterTransfer.stream()
                 .filter(account -> account.getId() == senderAccountId)
                 .mapToDouble(Account::getBalance).sum();
-
 
         Assertions.assertEquals(expectedErrorMessage, actualErrorMessage);
         Assertions.assertEquals(senderBalanceAfterTransfer, senderBalanceBeforeTransfer);

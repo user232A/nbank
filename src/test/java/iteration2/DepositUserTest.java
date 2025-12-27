@@ -9,15 +9,17 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 
 public class DepositUserTest extends BaseIteration2Test {
 
-    public static final String USER1_TOKEN = "Basic dXNlcjQ6cGFzc0QyMyE=";
-    public static final String USER2_TOKEN = "Basic dXNlcjU6cGFzc0QyMzExIQ==";
+    public static final String USER1_TOKEN = "Basic dXNlcjE6cGFzc0YzNSEx";
+    public static final String USER2_TOKEN = "Basic dXNlcjI6cGFzc1lBNSU=";
 
     @BeforeAll
     public static void setUp() {
@@ -26,9 +28,8 @@ public class DepositUserTest extends BaseIteration2Test {
 
     @Test
     public void userCanCreateAccountWithValidData() {
-        double expectedBalance = 0.0;
 
-        double actualBalance = given()
+        Account expectedAccount = given()
                 .header("Authorization", USER1_TOKEN)
                 .contentType(ContentType.JSON)
                 .accept(ContentType.JSON)
@@ -38,9 +39,24 @@ public class DepositUserTest extends BaseIteration2Test {
                 .body("id", Matchers.notNullValue())
                 .body("accountNumber", Matchers.notNullValue())
                 .extract()
-                .jsonPath().getDouble("balance");
+                .response().as(Account.class);
 
-        Assertions.assertEquals(expectedBalance, actualBalance);
+        List<Account> actaulAccountList = given()
+                .header("Authorization", USER1_TOKEN)
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .get("api/v1/customer/accounts")
+                .then()
+                .statusCode(HttpStatus.SC_OK)
+                .extract()
+                .jsonPath().getList("", Account.class);
+
+        int expectedAccountId = expectedAccount.getId();
+
+        Account actaulAccount = actaulAccountList.stream()
+                .filter(account -> account.getId() == expectedAccountId).toList().getFirst();
+
+        Assertions.assertEquals(expectedAccount, actaulAccount);
     }
 
     @ParameterizedTest
@@ -84,9 +100,22 @@ public class DepositUserTest extends BaseIteration2Test {
                 .extract()
                 .jsonPath().getDouble("[0].amount");
 
+        List<Account> actaulAccountList = given()
+                .header("Authorization", USER1_TOKEN)
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .get("api/v1/customer/accounts")
+                .then()
+                .statusCode(HttpStatus.SC_OK)
+                .extract()
+                .jsonPath().getList("", Account.class);
+
+        Account actaulAccount = actaulAccountList.stream()
+                .filter(account -> account.getId() == accountId).toList().getFirst();
 
         Assertions.assertEquals(amount, balance);
         Assertions.assertEquals(amount, actualBalance);
+        Assertions.assertEquals(amount, actaulAccount.getBalance());
     }
 
     @ParameterizedTest
@@ -106,6 +135,19 @@ public class DepositUserTest extends BaseIteration2Test {
                 .extract()
                 .jsonPath().getInt("id");
 
+        List<Account> expectedAccountList = given()
+                .header("Authorization", USER1_TOKEN)
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .get("api/v1/customer/accounts")
+                .then()
+                .statusCode(HttpStatus.SC_OK)
+                .extract()
+                .jsonPath().getList("", Account.class);
+
+        double expectedBalance = expectedAccountList.stream()
+                .filter(account -> account.getId() == accountId).toList().getFirst().getBalance();
+
         Map<String, Number> requestBody = Map.of("id", accountId, "balance", amount);
 
         // Make a deposit
@@ -119,7 +161,21 @@ public class DepositUserTest extends BaseIteration2Test {
                 .extract()
                 .response().asString();
 
+        List<Account> actualAccountList = given()
+                .header("Authorization", USER1_TOKEN)
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .get("api/v1/customer/accounts")
+                .then()
+                .statusCode(HttpStatus.SC_OK)
+                .extract()
+                .jsonPath().getList("", Account.class);
+
+        double actualBalance = actualAccountList.stream()
+                .filter(account -> account.getId() == accountId).toList().getFirst().getBalance();
+
         Assertions.assertEquals(expectedMessage, actualMessage);
+        Assertions.assertEquals(expectedBalance, actualBalance);
     }
 
     @ParameterizedTest
@@ -139,6 +195,19 @@ public class DepositUserTest extends BaseIteration2Test {
                 .extract()
                 .jsonPath().getInt("id");
 
+        List<Account> expectedAccountList = given()
+                .header("Authorization", USER1_TOKEN)
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .get("api/v1/customer/accounts")
+                .then()
+                .statusCode(HttpStatus.SC_OK)
+                .extract()
+                .jsonPath().getList("", Account.class);
+
+        double expectedBalance = expectedAccountList.stream()
+                .filter(account -> account.getId() == accountId).toList().getFirst().getBalance();
+
         Map<String, Number> requestBody = Map.of("id", accountId, "balance", amount);
 
         // Make a deposit
@@ -152,7 +221,21 @@ public class DepositUserTest extends BaseIteration2Test {
                 .extract()
                 .response().asString();
 
+        List<Account> actualAccountList = given()
+                .header("Authorization", USER1_TOKEN)
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .get("api/v1/customer/accounts")
+                .then()
+                .statusCode(HttpStatus.SC_OK)
+                .extract()
+                .jsonPath().getList("", Account.class);
+
+        double actualBalance = actualAccountList.stream()
+                .filter(account -> account.getId() == accountId).toList().getFirst().getBalance();
+
         Assertions.assertEquals(expectedMessage, actualMessage);
+        Assertions.assertEquals(expectedBalance, actualBalance);
     }
 
     @Test
@@ -169,6 +252,19 @@ public class DepositUserTest extends BaseIteration2Test {
                 .extract()
                 .jsonPath().getInt("id");
 
+        List<Account> expectedAccountList = given()
+                .header("Authorization", USER1_TOKEN)
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .get("api/v1/customer/accounts")
+                .then()
+                .statusCode(HttpStatus.SC_OK)
+                .extract()
+                .jsonPath().getList("", Account.class);
+
+        double expectedBalance = expectedAccountList.stream()
+                .filter(account -> account.getId() == accountId).toList().getFirst().getBalance();
+
         Map<String, Object> requestBody = new HashMap<>() {{
             put("id", accountId);
             put("balance", null);
@@ -182,12 +278,28 @@ public class DepositUserTest extends BaseIteration2Test {
                 .post("/api/v1/accounts/deposit")
                 .then()
                 .statusCode(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+
+        List<Account> actualAccountList = given()
+                .header("Authorization", USER1_TOKEN)
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .get("api/v1/customer/accounts")
+                .then()
+                .statusCode(HttpStatus.SC_OK)
+                .extract()
+                .jsonPath().getList("", Account.class);
+
+        double actualBalance = actualAccountList.stream()
+                .filter(account -> account.getId() == accountId).toList().getFirst().getBalance();
+
+        Assertions.assertEquals(expectedBalance, actualBalance);
     }
 
     @Test
     public void userCanNotDepositToAnotherAccount() {
 
         String expectedMessage = "Unauthorized access to account";
+        Integer amount = 125;
 
         // Create an account for user2
         Integer accountId = given()
@@ -200,7 +312,20 @@ public class DepositUserTest extends BaseIteration2Test {
                 .extract()
                 .jsonPath().getInt("id");
 
-        Map<String, Number> requestBody = Map.of("id", accountId, "balance", 125);
+        List<Account> expectedAccountList = given()
+                .header("Authorization", USER2_TOKEN)
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .get("api/v1/customer/accounts")
+                .then()
+                .statusCode(HttpStatus.SC_OK)
+                .extract()
+                .jsonPath().getList("", Account.class);
+
+        double expectedBalance = expectedAccountList.stream()
+                .filter(account -> account.getId() == accountId).toList().getFirst().getBalance();
+
+        Map<String, Number> requestBody = Map.of("id", accountId, "balance", amount);
 
         // Make a deposit
         String actualMessage = given()
@@ -213,7 +338,21 @@ public class DepositUserTest extends BaseIteration2Test {
                 .extract()
                 .response().asString();
 
+        List<Account> actualAccountList = given()
+                .header("Authorization", USER2_TOKEN)
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .get("api/v1/customer/accounts")
+                .then()
+                .statusCode(HttpStatus.SC_OK)
+                .extract()
+                .jsonPath().getList("", Account.class);
+
+        double actualBalance = actualAccountList.stream()
+                .filter(account -> account.getId() == accountId).toList().getFirst().getBalance();
+
         Assertions.assertEquals(expectedMessage, actualMessage);
+        Assertions.assertEquals(expectedBalance, actualBalance);
     }
 
     @Test
@@ -230,6 +369,19 @@ public class DepositUserTest extends BaseIteration2Test {
                 .extract()
                 .jsonPath().getInt("id");
 
+        List<Account> expectedAccountList = given()
+                .header("Authorization", USER1_TOKEN)
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .get("api/v1/customer/accounts")
+                .then()
+                .statusCode(HttpStatus.SC_OK)
+                .extract()
+                .jsonPath().getList("", Account.class);
+
+        double expectedBalance = expectedAccountList.stream()
+                .filter(account -> account.getId() == accountId).toList().getFirst().getBalance();
+
         Map<String, Number> requestBody = Map.of("id", accountId, "balance", 125);
 
         // Make a deposit
@@ -240,7 +392,20 @@ public class DepositUserTest extends BaseIteration2Test {
                 .then()
                 .statusCode(HttpStatus.SC_UNAUTHORIZED);
 
-        // Можно убедиться что баланс не поменялся
+        List<Account> actualAccountList = given()
+                .header("Authorization", USER1_TOKEN)
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .get("api/v1/customer/accounts")
+                .then()
+                .statusCode(HttpStatus.SC_OK)
+                .extract()
+                .jsonPath().getList("", Account.class);
+
+        double actualBalance = actualAccountList.stream()
+                .filter(account -> account.getId() == accountId).toList().getFirst().getBalance();
+
+        Assertions.assertEquals(expectedBalance, actualBalance);
     }
 
     @Test
@@ -257,6 +422,19 @@ public class DepositUserTest extends BaseIteration2Test {
                 .extract()
                 .jsonPath().getInt("id");
 
+        List<Account> expectedAccountList = given()
+                .header("Authorization", USER1_TOKEN)
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .get("api/v1/customer/accounts")
+                .then()
+                .statusCode(HttpStatus.SC_OK)
+                .extract()
+                .jsonPath().getList("", Account.class);
+
+        double expectedBalance = expectedAccountList.stream()
+                .filter(account -> account.getId() == accountId).toList().getFirst().getBalance();
+
         Map<String, Number> requestBody = Map.of("id", accountId, "balance", 125);
 
         // Make a deposit
@@ -268,13 +446,38 @@ public class DepositUserTest extends BaseIteration2Test {
                 .then()
                 .statusCode(HttpStatus.SC_UNAUTHORIZED);
 
-        // Можно убедиться что баланс не поменялся
+        List<Account> actualAccountList = given()
+                .header("Authorization", USER1_TOKEN)
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .get("api/v1/customer/accounts")
+                .then()
+                .statusCode(HttpStatus.SC_OK)
+                .extract()
+                .jsonPath().getList("", Account.class);
+
+        double actualBalance = actualAccountList.stream()
+                .filter(account -> account.getId() == accountId).toList().getFirst().getBalance();
+
+        Assertions.assertEquals(expectedBalance, actualBalance);
     }
 
     @Test
     public void userCanNotDepositToNonExistentAccount() {
 
-        Map<String, Number> requestBody = Map.of("id", Integer.MAX_VALUE, "balance", 125);
+        Integer amount = 125;
+
+        List<Account> expectedAccountList = given()
+                .header("Authorization", USER1_TOKEN)
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .get("api/v1/customer/accounts")
+                .then()
+                .statusCode(HttpStatus.SC_OK)
+                .extract()
+                .jsonPath().getList("", Account.class);
+
+        Map<String, Number> requestBody = Map.of("id", Integer.MAX_VALUE, "balance", amount);
 
         // Make a deposit
         given()
@@ -284,5 +487,22 @@ public class DepositUserTest extends BaseIteration2Test {
                 .post("/api/v1/accounts/deposit")
                 .then()
                 .statusCode(HttpStatus.SC_FORBIDDEN);
+
+        List<Account> actualAccountList = given()
+                .header("Authorization", USER1_TOKEN)
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .get("api/v1/customer/accounts")
+                .then()
+                .statusCode(HttpStatus.SC_OK)
+                .extract()
+                .jsonPath().getList("", Account.class);
+
+        List<Account> sortedExpectedAccountList = expectedAccountList.stream()
+                .sorted(Comparator.comparing(Account::getId)).toList();
+        List<Account> sortedActualAccountList = actualAccountList.stream()
+                .sorted(Comparator.comparing(Account::getId)).toList();
+
+        Assertions.assertEquals(sortedExpectedAccountList, sortedActualAccountList);
     }
 }

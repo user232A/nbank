@@ -14,7 +14,7 @@ import static io.restassured.RestAssured.given;
 
 public class ManageProfileTest extends BaseIteration2Test {
 
-    public static final String USER1_TOKEN = "Basic dXNlcjY6cGFzc0QyMzEyIQ==";
+    public static final String USER1_TOKEN = "Basic dXNlcjE6cGFzc0YzNSEx";
 
     @BeforeAll
     public static void setUp() {
@@ -25,6 +25,15 @@ public class ManageProfileTest extends BaseIteration2Test {
     public void userCanUpdateTheirName() {
 
         String name = "Bob Miller";
+
+        String oldName = given()
+                .header("Authorization", USER1_TOKEN)
+                .contentType(ContentType.JSON)
+                .get("/api/v1/customer/profile")
+                .then()
+                .statusCode(HttpStatus.SC_OK)
+                .extract()
+                .jsonPath().getString("name");
 
         Map<String, String> requestBody = Map.of("name", name);
 
@@ -47,15 +56,14 @@ public class ManageProfileTest extends BaseIteration2Test {
                 .extract()
                 .jsonPath().getString("name");
 
+        Assertions.assertNotEquals(oldName, actualName);
         Assertions.assertEquals(name, actualName);
     }
 
     @Test
     public void userUnauthorizedCanNotUpdateName() {
 
-        String name = "Bob Miller";
-
-        Map<String, String> requestBody = Map.of("name", name);
+        String name = "Dan Miller";
 
         String expectedName = given()
                 .header("Authorization", USER1_TOKEN)
@@ -65,6 +73,8 @@ public class ManageProfileTest extends BaseIteration2Test {
                 .statusCode(HttpStatus.SC_OK)
                 .extract()
                 .jsonPath().getString("name");
+
+        Map<String, String> requestBody = Map.of("name", name);
 
         given()
                 .contentType(ContentType.JSON)
@@ -82,13 +92,14 @@ public class ManageProfileTest extends BaseIteration2Test {
                 .extract()
                 .jsonPath().getString("name");
 
-        Assertions.assertEquals(name, actualName);
+        Assertions.assertNotEquals(name, actualName);
+        Assertions.assertEquals(expectedName, actualName);
     }
 
     @Test
     public void userCanNotUpdateNameWithIncorrectToken() {
 
-        String name = "Bob Miller";
+        String name = "John Miller";
 
         Map<String, String> requestBody = Map.of("name", name);
 
@@ -118,7 +129,8 @@ public class ManageProfileTest extends BaseIteration2Test {
                 .extract()
                 .jsonPath().getString("name");
 
-        Assertions.assertEquals(name, actualName);
+        Assertions.assertNotEquals(name, actualName);
+        Assertions.assertEquals(expectedName, actualName);
     }
 
     @Test
@@ -159,6 +171,7 @@ public class ManageProfileTest extends BaseIteration2Test {
 
         Assertions.assertEquals(expectedMessage, actualMessage);
         Assertions.assertEquals(expectedName, actualName);
+        Assertions.assertNotEquals(name, actualName);
     }
 
     @Test
