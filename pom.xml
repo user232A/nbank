@@ -15,6 +15,8 @@
         <junit.version>5.13.4</junit.version>
         <restAssured.version>6.0.0</restAssured.version>
         <jackson.version>2.20.0</jackson.version>
+        <lombok.version>1.18.42</lombok.version>
+        <asserj.version>3.27.6</asserj.version>
     </properties>
 
     <dependencies>
@@ -36,6 +38,19 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${jackson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${asserj.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

@@ -1,106 +1,74 @@
 package iteration1;
 
-import io.restassured.http.ContentType;
-import org.apache.http.HttpStatus;
-import org.junit.jupiter.api.BeforeAll;
+import generators.RandomData;
+import models.CreateUserModelRequest;
+import models.UserLoginModelRequest;
+import models.UserRole;
 import org.junit.jupiter.api.Test;
+import requests.AdminCreateUserRequest;
+import requests.UserLoginRequest;
+import specs.RequestSpecs;
+import specs.ResponseSpecs;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
 public class LoginUserTest extends BaseTest {
 
-    @BeforeAll
-    public static void setUp() {
-        configureLoggingFilters();
-    }
-
     @Test
     public void adminCanGetAuthTokenTest() {
-        given()
-                .contentType(ContentType.JSON)
-                .accept(ContentType.JSON)
-                .body("""
-                        {
-                          "username": "admin",
-                          "password": "admin"
-                        }
-                        """)
-                .post("http://localhost:4111/api/v1/auth/login")
-                .then()
-                .statusCode(HttpStatus.SC_OK)
-                .header("Authorization", notNullValue())
-                .body("role", equalTo("ADMIN"))
-                .body("username", equalTo("admin"));
+
+        UserLoginModelRequest userLoginModelRequest = UserLoginModelRequest.builder()
+                .username("admin")
+                .password("admin")
+                .build();
+
+        new UserLoginRequest(RequestSpecs.unAuthSpec(), ResponseSpecs.operationOk())
+                .post(userLoginModelRequest);
     }
 
     @Test
     public void adminCanNotGetAuthTokenWithIncorrectUsernameTest() {
-        given()
-                .contentType(ContentType.JSON)
-                .accept(ContentType.JSON)
-                .body("""
-                        {
-                          "username": "user",
-                          "password": "admin"
-                        }
-                        """)
-                .post("http://localhost:4111/api/v1/auth/login")
-                .then()
-                .statusCode(HttpStatus.SC_UNAUTHORIZED)
-                .body("error", equalTo("Invalid username or password"));
+
+        UserLoginModelRequest userLoginModelRequest = UserLoginModelRequest.builder()
+                .username(RandomData.getUsername())
+                .password("admin")
+                .build();
+
+        new UserLoginRequest(RequestSpecs.unAuthSpec(), ResponseSpecs.unAuthorizedUser())
+                .post(userLoginModelRequest);
     }
 
     @Test
     public void adminCanNotGetAuthTokenWithIncorrectPasswordTest() {
-        given()
-                .contentType(ContentType.JSON)
-                .accept(ContentType.JSON)
-                .body("""
-                        {
-                          "username": "admin",
-                          "password": "password"
-                        }
-                        """)
-                .post("http://localhost:4111/api/v1/auth/login")
-                .then()
-                .statusCode(HttpStatus.SC_UNAUTHORIZED)
-                .body("error", equalTo("Invalid username or password"));
+
+        UserLoginModelRequest userLoginModelRequest = UserLoginModelRequest.builder()
+                .username("admin")
+                .password(RandomData.getPassword())
+                .build();
+
+        new UserLoginRequest(RequestSpecs.unAuthSpec(), ResponseSpecs.unAuthorizedUser())
+                .post(userLoginModelRequest);
     }
 
     @Test
     public void userCanGetAuthTokenTest() {
 
-        given()
-                .header("Authorization", "Basic YWRtaW46YWRtaW4=")
-                .contentType(ContentType.JSON)
-                .accept(ContentType.JSON)
-                .body("""
-                        {
-                          "username": "alex05",
-                          "password": "verysFd55$",
-                          "role": "USER"
-                        }
-                        """)
-                .post("http://localhost:4111/api/v1/admin/users")
-                .then()
-                .statusCode(HttpStatus.SC_CREATED);
+        CreateUserModelRequest userModelRequest = CreateUserModelRequest.builder()
+                .username(RandomData.getUsername())
+                .password(RandomData.getPassword())
+                .role(UserRole.USER.toString())
+                .build();
 
+        new AdminCreateUserRequest(RequestSpecs.adminSpec(), ResponseSpecs.entityWasCreatedWithRoleUser())
+                .post(userModelRequest);
 
-        given()
-                .contentType(ContentType.JSON)
-                .accept(ContentType.JSON)
-                .body("""
-                        {
-                          "username": "alex05",
-                          "password": "verysFd55$"
-                        }
-                        """)
-                .post("http://localhost:4111/api/v1/auth/login")
-                .then()
-                .statusCode(HttpStatus.SC_OK)
-                .header("Authorization", notNullValue());
+        UserLoginModelRequest userLoginModelRequest = UserLoginModelRequest.builder()
+                .username(userModelRequest.getUsername())
+                .password(userModelRequest.getPassword())
+                .build();
 
+        new UserLoginRequest(RequestSpecs.unAuthSpec(), ResponseSpecs.checkToken())
+                .post(userLoginModelRequest);
     }
 }
