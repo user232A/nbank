@@ -1,9 +1,18 @@
 package iteration1;
 
+import generators.RandomData;
 import io.restassured.http.ContentType;
+import models.CreateUserModelRequest;
+import models.UserLoginModelRequest;
+import models.UserRole;
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import requests.AdminCreateUserRequest;
+import requests.UserCreateAccountRequest;
+import requests.UserLoginRequest;
+import specs.RequestSpecs;
+import specs.ResponseSpecs;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
@@ -11,50 +20,33 @@ import static org.hamcrest.Matchers.notNullValue;
 
 public class CreateAccountTest extends BaseTest {
 
-    @BeforeAll
-    public static void setUp() {
-        configureLoggingFilters();
-    }
-
     @Test
     public void userCanCreateAccountWithValidData() {
 
-        given()
-                .header("Authorization", "Basic YWRtaW46YWRtaW4=")
-                .contentType(ContentType.JSON)
-                .accept(ContentType.JSON)
-                .body("""
-                        {
-                          "username": "alex08",
-                          "password": "verysFd88$",
-                          "role": "USER"
-                        }
-                        """)
-                .post("http://localhost:4111/api/v1/admin/users")
-                .then()
-                .statusCode(HttpStatus.SC_CREATED)
-                .body("role", equalTo("USER"));
+        CreateUserModelRequest userModelRequest = CreateUserModelRequest.builder()
+                .username(RandomData.getUsername())
+                .password(RandomData.getPassword())
+                .role(UserRole.USER.toString())
+                .build();
 
-        String token = given()
-                .contentType(ContentType.JSON)
-                .accept(ContentType.JSON)
-                .body("""
-                        {
-                          "username": "alex08",
-                          "password": "verysFd88$"
-                        }
-                        """)
-                .post("http://localhost:4111/api/v1/auth/login")
-                .then()
-                .statusCode(HttpStatus.SC_OK)
-                .header("Authorization", notNullValue())
+        UserLoginModelRequest userLoginModelRequest = UserLoginModelRequest.builder()
+                .username(userModelRequest.getUsername())
+                .password(userModelRequest.getPassword())
+                .build();
+
+        // create user
+        new AdminCreateUserRequest(RequestSpecs.adminSpec(), ResponseSpecs.entityWasCreatedWithRoleUser())
+                .post(userModelRequest);
+
+        // get token
+        String token = new UserLoginRequest(RequestSpecs.unAuthSpec(), ResponseSpecs.checkToken())
+                .post(userLoginModelRequest)
                 .extract().header("Authorization");
 
-        given()
-                .header("Authorization", token)
-                .contentType(ContentType.JSON)
-                .post("http://localhost:4111/api/v1/accounts")
-                .then()
-                .statusCode(HttpStatus.SC_CREATED);
+        // create account
+        new UserCreateAccountRequest(RequestSpecs.userSpec(token), ResponseSpecs.entityWasCreated())
+                .post(null);
+
+        // запросить все аккаунты пользователя и проверить, что наш аккаунт там
     }
 }
